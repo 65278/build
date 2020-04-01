@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+	<maintainer type="person">
+		<email>felix@zeynix.com</email>
+	</maintainer>
+	<use>
+		<flag name="polymost">use Ken Silvermans polymost renderer</flag>
+		<flag name="opengl">enable opengl extensions in rendering</flag>
+		<flag name="vorbis">enable replay of audio tracks in vorbis format (GoG)</flag>
+		<flag name="alsa">enable alsalib for audio</flag>
+		<flag name="gtk">enable gtk3 configuration menu</flag>
+		<flag name="fluidsynth">enable midi replay (relevant for shareware version only)</flag>
+		<flag name="demo">install the shareware versions game files</flag>
+	</use>
+</pkgmetadata>
