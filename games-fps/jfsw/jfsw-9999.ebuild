@@ -10,11 +10,11 @@ DESCRIPTION="A port of Shadow Warrior"
 HOMEPAGE="http://www.jonof.id.au/jfsw/"
 LICENSE="GPL-2"
 SLOT="0"
-KEYWORDS="~amd64 ~x86"
 
 if [[ "${PV}" != 9999 ]]
 then
 	EGIT_COMMIT_DATE="${PV}"
+	KEYWORDS="~amd64 ~x86"
 fi
 
 # sdl is non optional on linux
