@@ -3,7 +3,7 @@
 
 EAPI=7
 
-inherit git-r3
+inherit git-r3 linux-info
 EGIT_REPO_URI="https://github.com/jonof/jfsw.git"
 
 DESCRIPTION="A port of Shadow Warrior"
@@ -18,11 +18,14 @@ then
 fi
 
 # sdl is non optional on linux
-IUSE="+vorbis +alsa fluidsynth +opengl +gtk +polymost demo"
+IUSE="+vorbis timidity fluidsynth +opengl +gtk +polymost demo"
 
 # Todo: report bug in polymost
+# Note: only either alsa or fluidsynth
+#       can be compiled as midi backend
 REQUIRED_USE="
 	polymost? ( opengl )
+	?? ( fluidsynth timidity )
 "
 
 # there are no tests
@@ -34,9 +37,10 @@ BDEPEND="
 
 DEPEND="
 	vorbis? ( media-libs/libvorbis )
-	alsa? (
+	timidity? (
 		media-libs/alsa-lib
 		media-libs/libsdl2[alsa]
+		media-sound/timidity++[alsa]
 	)
 	|| (
 		media-libs/libsdl2[sound,video,X,opengl?]
@@ -75,7 +79,7 @@ src_prepare()
 			die "Failed to disable GTK!"
 	fi
 
-	if ! use alsa
+	if ! use timidity
 	then
 		sed 's/alsa && echo yes/alsa \&\& echo no/' \
 			-i "${S}/jfaudiolib/Makefile.shared" || \
@@ -107,6 +111,7 @@ src_prepare()
 	use polymost || echo USE_POLYMOST=0 >> Makefile.user
 	use opengl || echo USE_OPENGL=0 >> Makefile.user
 
+	eapply "${FILESDIR}/resolution.patch"
 	eapply_user
 }
 
@@ -127,4 +132,21 @@ pkg_postinst()
 	einfo Remember:
 	einfo Playing game is only way to preserve honour\!
 	echo
+	if use timidity
+	then
+		ewarn The alsa midi backend requires you to load snd_seq_midi
+		ewarn and run a synthesizer like timidity++
+	fi
+}
+
+pkg_setup()
+{
+	if use timidity
+	then
+		CONFIG_CHECK="
+			~SND_SEQ_MIDI
+		"
+		ERROR_SND_SEQ_MIDI="CONFIG_SND_SEQ_MIDI is required to sequence midi with alsa"
+		linux-info_pkg_setup
+	fi
 }
