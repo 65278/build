@@ -5,6 +5,7 @@
 		<email>felix@zeynix.com</email>
 	</maintainer>
 	<use>
-		<flag name="fluidsynth">enable midi replay in jfsw</flag>
+		<flag name="fluidsynth">enable midi replay through fluidsynth in jfsw</flag>
+		<flag name="timidity">enable midi replay through timidity in jfsw</flag>
 	</use>
 </pkgmetadata>

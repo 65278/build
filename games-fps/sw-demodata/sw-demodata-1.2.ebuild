@@ -9,10 +9,12 @@ SRC_URI="ftp://ftp.3drealms.com/share/3dsw12.zip"
 
 LICENSE="SW3DR"
 SLOT="0"
-KEYWORDS="~amd64 ~x86"
-IUSE="+fluidsynth"
+KEYWORDS="amd64 x86"
+IUSE="+fluidsynth -timidity"
 
-RDEPEND="games-fps/jfsw[fluidsynth?]"
+RESTRICT_USE="?? ( fluidsynth timidity )"
+
+RDEPEND="games-fps/jfsw[fluidsynth?,timidity?]"
 
 S=${WORKDIR}
 
